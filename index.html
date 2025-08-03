@@ -1,0 +1,2012 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sciency Dipduino Booklet v1.1</title>
+    <!-- 
+    EDITABLE VERSION INSTRUCTIONS:
+    1. Save this HTML file to your computer
+    2. To edit text: Open in any text editor (Notepad++, VS Code, Sublime Text, etc.)
+    3. To edit visually: Open in a web browser, then use browser developer tools
+    4. Image placeholders: Replace src="filename.png" with actual image paths
+    5. For circuit diagrams: Replace placeholder names with your actual image files
+    6. For mBlock screenshots: Update the src attributes to point to your image files
+    7. To export as PDF: Open in Chrome/Edge, press Ctrl+P, select "Save as PDF"
+    -->
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        @page {
+            size: A4;
+            margin: 20mm;
+        }
+        
+        @media print {
+            .page-break {
+                page-break-after: always;
+            }
+            .no-break {
+                page-break-inside: avoid;
+            }
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: #ffffff;
+        }
+        
+        .container {
+            max-width: 210mm;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        
+        /* Cover Page */
+        .cover-page {
+            height: 297mm;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cover-page::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 20s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 40px;
+            background: white;
+            border-radius: 25px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .cover-title {
+            font-size: 52px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            z-index: 1;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            letter-spacing: 2px;
+        }
+        
+        .cover-subtitle {
+            font-size: 26px;
+            font-weight: 300;
+            opacity: 0.95;
+            z-index: 1;
+            margin-bottom: 10px;
+        }
+        
+        .version {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        
+        /* Content Pages */
+        .content {
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #4A00E0;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 4px solid #8E2DE2;
+        }
+        
+        h2 {
+            color: #8E2DE2;
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+        
+        h3 {
+            color: #4A00E0;
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+        
+        h4 {
+            color: #2d3748;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 25px;
+            margin-bottom: 10px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+            color: #2d3748;
+        }
+        
+        /* Welcome Section */
+        .welcome-box {
+            background: linear-gradient(135deg, #f5f3ff 0%, #e9e5ff 100%);
+            border-left: 5px solid #8E2DE2;
+            padding: 30px;
+            margin: 30px 0;
+            border-radius: 10px;
+            font-style: italic;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        /* Packing List */
+        .packing-list {
+            background: #fafafa;
+            padding: 35px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .packing-list h2 {
+            color: #8E2DE2;
+            margin-bottom: 25px;
+        }
+        
+        .packing-list ol {
+            counter-reset: item;
+            padding-left: 0;
+        }
+        
+        .packing-list li {
+            counter-increment: item;
+            margin-bottom: 12px;
+            padding-left: 45px;
+            position: relative;
+            list-style: none;
+            color: #2d3748;
+        }
+        
+        .packing-list li::before {
+            content: counter(item);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #8E2DE2;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        /* Table of Contents */
+        .toc {
+            background: #fafafa;
+            padding: 35px;
+            border-radius: 10px;
+            margin: 30px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .toc-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px 0;
+            border-bottom: 2px dotted #e2e8f0;
+        }
+        
+        .toc-item:last-child {
+            border-bottom: none;
+        }
+        
+        .toc-title {
+            flex: 1;
+            color: #2d3748;
+            font-weight: 500;
+        }
+        
+        .toc-page {
+            color: #8E2DE2;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        /* Code Blocks */
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 25px;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 25px 0;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+        }
+        
+        .code-label {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            background: #8E2DE2;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        
+        /* Syntax highlighting */
+        .keyword { color: #569cd6; }
+        .function { color: #dcdcaa; }
+        .number { color: #b5cea8; }
+        .string { color: #ce9178; }
+        .comment { color: #6a9955; }
+        .type { color: #4ec9b0; }
+        
+        /* Components Box */
+        .components-box {
+            background: #f0ebff;
+            border: 2px solid #8E2DE2;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .components-box h4 {
+            color: #8E2DE2;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+        
+        .components-box ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .components-box li {
+            padding-left: 30px;
+            position: relative;
+            margin-bottom: 10px;
+            color: #2d3748;
+        }
+        
+        .components-box li::before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #8E2DE2;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        /* Circuit Diagram */
+        .circuit-diagram {
+            background: #fafafa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .circuit-diagram img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .circuit-caption {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #718096;
+            font-style: italic;
+            font-weight: 500;
+        }
+        
+        /* Tips and Notes */
+        .note {
+            background: #fee;
+            border-left: 5px solid #e53e3e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .note strong {
+            color: #c53030;
+            font-weight: 600;
+        }
+        
+        .tip {
+            background: #e6fffa;
+            border-left: 5px solid #38b2ac;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .tip strong {
+            color: #2c7a7b;
+            font-weight: 600;
+        }
+        
+        .danger {
+            background: #fff5f5;
+            border-left: 5px solid #fc8181;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .danger strong {
+            color: #c53030;
+            font-weight: 600;
+        }
+        
+        /* Step Lists */
+        .steps {
+            counter-reset: step;
+            margin: 25px 0;
+        }
+        
+        .step {
+            counter-increment: step;
+            margin-bottom: 25px;
+            padding-left: 55px;
+            position: relative;
+        }
+        
+        .step::before {
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #8E2DE2;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 18px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        /* Lesson Headers */
+        .lesson-header {
+            background: linear-gradient(135deg, #8E2DE2 0%, #4A00E0 100%);
+            color: white;
+            padding: 45px;
+            margin: -40px -40px 40px -40px;
+            border-radius: 10px 10px 0 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .lesson-number {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+        
+        .lesson-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 0;
+        }
+        
+        /* Overview Sections */
+        .overview {
+            background: #fafafa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-top: 5px solid #8E2DE2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        /* Pin Descriptions */
+        .pin-description {
+            background: #f0ebff;
+            padding: 20px 25px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #8E2DE2;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .pin-description strong {
+            color: #8E2DE2;
+            font-weight: 600;
+        }
+        
+        /* mBlock Screenshots */
+        .mblock-screenshot {
+            background: #fafafa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .mblock-screenshot img {
+            max-width: 90%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+            font-size: 14px;
+            border-top: 3px solid #e2e8f0;
+            margin-top: 60px;
+        }
+        
+        /* Inline code */
+        code {
+            background: #f0ebff;
+            color: #8E2DE2;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Cover Page -->
+        <div class="cover-page page-break">
+            <div class="logo">
+                <img src="sciency-logo.png" alt="Sciency Logo">
+            </div>
+            <h1 class="cover-title">SCIENCY DIPDUINO</h1>
+            <p class="cover-subtitle">Professional Development Kit</p>
+            <p class="cover-subtitle">& Comprehensive Learning Guide</p>
+            <div class="version">Version 1.1</div>
+        </div>
+        
+        <!-- Welcome Page -->
+        <div class="content page-break">
+            <h1>Welcome to Sciency Dipduino</h1>
+            <div class="welcome-box">
+                <p>Welcome to the world of endless possibilities with the Sciency Dipduino Kit, where curiosity meets innovation! Dive into the fascinating realm of robotics, programming, and electronics with our comprehensive kit designed for enthusiasts, beginners, and tech wizards alike. Packed with high-quality components, including sensors, motors, LEDs, and much more. Each component is chosen to ensure compatibility and ease of use.</p>
+            </div>
+            
+            <div class="packing-list">
+                <h2>What's Inside Your Kit</h2>
+                <ol>
+                    <li>Sciency Dipduino (1 Pc)</li>
+                    <li>LEDs (15 Pcs) - Green, Blue, Red, Amber, White</li>
+                    <li>415 Tie-points Breadboard (1 Pc)</li>
+                    <li>Active buzzer (1 Pc)</li>
+                    <li>Passive buzzer (1 Pc)</li>
+                    <li>Jumper wires (30 Pcs)</li>
+                    <li>Female-to-male Dupont Wires (10 Pcs)</li>
+                    <li>Servo Motor (SG90) (1 Pc)</li>
+                    <li>Potentiometer (10K) (1 Pc)</li>
+                    <li>Fan blade and DC Motor (with wires) (1Pc)</li>
+                    <li>L293D DC Motor driver (1 Pc)</li>
+                    <li>Resistors (25 Pcs)</li>
+                    <li>Push buttons (5 Pcs)</li>
+                    <li>Thermistor (1 Pc)</li>
+                    <li>Photoresistor (Photocell) (1 Pc)</li>
+                    <li>Ultrasonic sensor (HR-SR04) (1 Pc)</li>
+                    <li>LCD 1602 Module (with pin header) (1 Pc)</li>
+                    <li>Water level detection sensor module (1 Pc)</li>
+                    <li>1 Digit 7-Segment display (1 Pc)</li>
+                    <li>4 Digit 7-Segment display (1 Pc)</li>
+                    <li>USB-A to USB-B cable</li>
+                </ol>
+            </div>
+        </div>
+        
+        <!-- Table of Contents -->
+        <div class="content page-break">
+            <h1>Table of Contents</h1>
+            <div class="toc">
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 0: Installing IDE, Add Libraries and Open Serial monitor</span>
+                    <span class="toc-page">4</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 0b: The Sciency Dipduino microcontroller board</span>
+                    <span class="toc-page">8</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 1: Light Emitting Diode (LED)</span>
+                    <span class="toc-page">10</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 2: Digital inputs</span>
+                    <span class="toc-page">12</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 3: Active and Passive buzzers</span>
+                    <span class="toc-page">14</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 4: Servo motor</span>
+                    <span class="toc-page">16</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 5: Direct Current (DC) motor</span>
+                    <span class="toc-page">18</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 6: Ultrasonic sensor module</span>
+                    <span class="toc-page">20</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 7: Potentiometer</span>
+                    <span class="toc-page">22</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 8: Photoresistor/Light Dependant resistor</span>
+                    <span class="toc-page">24</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 9: Thermistor</span>
+                    <span class="toc-page">26</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 10: Water level detection sensor module</span>
+                    <span class="toc-page">28</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 11: One Digit 7-Segment display</span>
+                    <span class="toc-page">30</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 12: Four Digit 7-Segment display</span>
+                    <span class="toc-page">32</span>
+                </div>
+                <div class="toc-item">
+                    <span class="toc-title">Lesson 13: Liquid Crystal Display (LCD)</span>
+                    <span class="toc-page">34</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lesson 0 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 0</div>
+                <div class="lesson-title">Installing IDE, Libraries and Serial Monitor</div>
+            </div>
+            
+            <h2>Installing the Arduino IDE</h2>
+            <p>The Arduino IDE (Integrated Development Environment) is a software application used for programming Arduino and other compatible microcontroller boards like the <strong>Sciency Dipduino</strong>. It provides a user-friendly interface that simplifies the process of writing, compiling, and uploading code to these boards.</p>
+            
+            <p>In this lesson, you will learn how to set up your computer to be able to program the <strong>Sciency Dipduino.</strong> The Arduino IDE is available for Windows, Mac and Linux and the installation process is different for all three platforms.</p>
+            
+            <h3>Step 1: Download Arduino IDE</h3>
+            <div class="steps">
+                <div class="step">
+                    <p>Visit the official Arduino website at <a href="https://www.arduino.cc/en/Main/Software" style="color: #8E2DE2;">https://www.arduino.cc/en/Main/Software</a>.</p>
+                </div>
+                <div class="step">
+                    <p>From the given download options on the website, choose the appropriate version of the Arduino IDE based on your operating system (Windows, macOS, Linux). Then click the "<strong>JUST DOWNLOAD</strong>" link to start the download. However if you want to support the people behind the Arduino IDE software you click the "<strong>CONTRIBUTE AND DOWNLOAD</strong>" button instead to make a donation before downloading the IDE.</p>
+                </div>
+            </div>
+            
+            <h3>Step 2: Install Arduino IDE</h3>
+            <div class="steps">
+                <div class="step">
+                    <p>Once the download is complete, locate the downloaded file (it's usually in your Downloads folder) and double-click on it to run the installer (or install it the way you usually install software on your machine i.e. via command line or by dragging and dropping the <em>.dmg</em> file to the Applications folder)</p>
+                </div>
+                <div class="step">
+                    <p>Either way, the installation wizard will guide you through the installation process. You might need to choose installation components or specify an installation path. It's often recommended to keep the default settings unless you have specific preferences.</p>
+                </div>
+                <div class="step">
+                    <p>During the installation, the operating system might attempt to install the necessary USB drivers for your Arduino board. If prompted, allow the installation to complete. This step is particularly common in Windows but might be required in other operating systems too.</p>
+                </div>
+                <div class="step">
+                    <p>After the installation is complete, the installer will typically provide an option to launch the Arduino IDE immediately. If not, you can find the Arduino IDE in your applications or programs folder and launch it from there.</p>
+                </div>
+            </div>
+            
+            <h2>Adding Libraries to the Arduino IDE</h2>
+            <p>In your coding journey, you will be frequently adding external libraries to your IDE to make coding your projects a little less painful. Libraries are pre-written code modules that simplify complex tasks and help you work with various sensors, modules, and components without having to write extensive code from scratch.</p>
+            
+            <h3>Steps to Install Libraries</h3>
+            <div class="steps">
+                <div class="step">
+                    <p>Launch the Arduino IDE on your computer.</p>
+                </div>
+                <div class="step">
+                    <p>Navigate to the <strong>Library Manager</strong> by clicking the <strong>"Sketch"</strong> option on the tab bar menu and then navigate to <strong>"Include Library"</strong> > <strong>"Manage Libraries..."</strong>.</p>
+                    <p style="margin-top: 10px;">Alternatively, just click the <strong>Library Manager</strong> icon on the options on the left hand side of the Arduino IDE interface. The icon looks like a stack of books.</p>
+                </div>
+                <div class="step">
+                    <p>In the Library Manager, you can explore available libraries. You can use the search bar to find a specific library or scroll through the list to see all available options.</p>
+                    <div class="note">
+                        <strong>Note:</strong> The libraries we are going to be using are listed on each lesson where the library is going to be used.
+                    </div>
+                </div>
+                <div class="step">
+                    <p>Once you find the library you need, click on the library entry. A <strong>"INSTALL"</strong> button will appear. Click the <strong>"INSTALL"</strong> button to download and install the library. Once the installation is complete, you'll see a "Installed" status next to the library in the Library Manager. At this point, the library is ready for use, you can now include it in your sketches.</p>
+                </div>
+            </div>
+            
+            <h2>The Serial Monitor</h2>
+            <p>The Serial Monitor is a built-in feature in Arduino IDE that allows you to interact with your <strong>Sciency Dipduino</strong> board through the serial communication. It's especially useful for debugging your code and monitoring sensor outputs since it enables you to send data from your <strong>Sciency Dipduino</strong> board to your computer and vice versa.</p>
+            
+            <h3>Accessing the Serial Monitor</h3>
+            <div class="steps">
+                <div class="step">
+                    <p>Open the Arduino IDE and also connect your <strong>Sciency Dipduino</strong> to the computer via the provided USB Cable.</p>
+                </div>
+                <div class="step">
+                    <p>Once the <strong>Sciency Dipduino</strong> has been connected to the computer via the USB Cable, you need to select the USB port to which it is connected to and also select "Arduino Uno" in the select board menu that pops up.</p>
+                </div>
+                <div class="step">
+                    <p>Write a simple sketch, preferably your sketch should start monitoring the Serial monitor by including the following code in the setup function:</p>
+                    <div class="code-block">
+                        <span class="code-label">Arduino</span>
+                        <pre><span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);</pre>
+                    </div>
+                </div>
+                <div class="step">
+                    <p>Upload your sketch by clicking the <strong>Upload</strong> button (right arrow icon) in the IDE</p>
+                </div>
+                <div class="step">
+                    <p>Open Serial Monitor by clicking the magnifying glass icon in the upper right corner of the Arduino IDE window. Alternatively, you can go to the "Tools" menu and select "Serial Monitor." The shortcut for opening the Serial Monitor is Ctrl + Shift + M (on Windows) or Cmd + Shift + M (on macOS).</p>
+                </div>
+            </div>
+            
+            <div class="tip">
+                <strong>Tip:</strong> On the tutorial videos, there is extensive use of the Serial monitor. Please refer to those videos for assistance on how to use the Serial monitor.
+            </div>
+            
+            <h2>Alternative: Installing mBlock for Beginners</h2>
+            <div class="note">
+                <strong>NOTE:</strong> For Primary School Students or students who still need to polish up their coding skills, we recommend getting started with the Sciency Dipduino Kit using Scratch based programming using the makeBlock (mBlock) IDE.
+            </div>
+            
+            <p><strong>Makeblock</strong> software, often known as <strong>mBlock</strong>, is a user-friendly graphical programming environment designed for beginners, educators, and young learners interested in learning programming and robotics. <strong>mBlock</strong> uses a drag-and-drop interface based on Scratch, allowing users to create programs by stacking blocks representing different commands. This visual approach makes it accessible for users with little or no coding experience.</p>
+            
+            <h3>Setting up mBlock</h3>
+            <div class="steps">
+                <div class="step">
+                    <p>Go to the official mBlock website at <a href="https://www.mblock.cc/" style="color: #8E2DE2;">https://www.mblock.cc/</a>.</p>
+                </div>
+                <div class="step">
+                    <p>Once on the site click the <strong>Download</strong> tab bar option, and this will take you to the following link <a href="https://www.mblock.cc/en/download/" style="color: #8E2DE2;">https://www.mblock.cc/en/download/</a></p>
+                </div>
+                <div class="step">
+                    <p>Once on the download page, select the appropriate version of <strong>mBlock</strong> based on your requirements. There might be different versions for beginners, educators, or specific platforms. For example, if you intend to use <strong>mBlock</strong> on a Windows machine, you need to navigate to the section labeled <strong>mBlock PC version</strong> and click the "<strong>Download for Windows</strong>" button and the download will start automatically.</p>
+                </div>
+                <div class="step">
+                    <p>Once the download is complete, locate the downloaded file in your downloads folder and double-click the installer or follow the specific installation instructions provided for your operating system.</p>
+                </div>
+                <div class="step">
+                    <p>Follow the Installation Wizard which will guide you through the installation process. Accept the terms of the license agreement if prompted.</p>
+                </div>
+                <div class="step">
+                    <p>Wait for the installation process to be done and launch mBlock</p>
+                </div>
+                <div class="step">
+                    <p>After launching <strong>mBlock</strong>, we need to add devices to the "<strong>Devices</strong>" tab by clicking the "<strong>add</strong>" button</p>
+                </div>
+                <div class="step">
+                    <p>In these lessons we are going to be adding working with 2 devices. Check out the setup video to see which devices are going to be used.</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lesson 0b -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 0b</div>
+                <div class="lesson-title">The Sciency Dipduino Microcontroller Board</div>
+            </div>
+            
+            <div class="overview">
+                <p>The <strong>Sciency Dipduino</strong> microcontroller board represents a seamless integration of Arduino Uno R3's adaptability with the formidable capabilities of the Atmega328P chip. This innovative synergy results in a microcontroller tailored explicitly for scientific and educational endeavors, promising unparalleled performance and ease of use.</p>
+                
+                <p>The <strong>Sciency Dipduino</strong> board boasts a diverse array of input and output ports, including digital and analog pins. These ports enable seamless connectivity with sensors, actuators, displays, and other electronic components, empowering users to craft a wide range of scientific experiments and projects.</p>
+            </div>
+            
+            <h2>Pin Configuration</h2>
+            
+            <h3>Digital Pins (0 - 13)</h3>
+            <div class="pin-description">
+                <p>Digital pins on the <strong>Sciency Dipduino</strong> board can be used for both input and output operations. They can read digital signals (0 or 1) (HIGH / LOW) or send digital signals to control various components like LEDs, motors, and buzzers. Digital pins can be configured as either input or output using the <code>pinMode()</code> function.</p>
+            </div>
+            
+            <h3>Analog Pins (A0 - A5)</h3>
+            <div class="pin-description">
+                <p>Analog pins on the <strong>Sciency Dipduino</strong> board are primarily used to read analog voltage levels. Unlike digital pins that can only read HIGH (1) or LOW (0) signals, analog pins can read a range of values (0 to 1023) corresponding to different voltage levels (0 to 5V). This makes them ideal for reading data from analog sensors like light sensors, temperature sensors, and potentiometers using the <code>analogRead()</code> function.</p>
+            </div>
+            
+            <h3>Power Pins</h3>
+            <p>The <strong>Sciency Dipduino</strong> board has several power pins which are summarized below:</p>
+            
+            <div class="pin-description">
+                <p><strong>5V Pin:</strong> Provides a regulated 5V output that can be used to power external components.</p>
+            </div>
+            
+            <div class="pin-description">
+                <p><strong>3.3V Pin:</strong> Provides a regulated 3.3V output, suitable for powering certain sensors and modules.</p>
+            </div>
+            
+            <div class="pin-description">
+                <p><strong>GND (Ground) Pins:</strong> Ground pins are used as the reference point for electrical circuits. There are multiple GND pins on the board, allowing you to connect multiple components to the same ground reference.</p>
+            </div>
+            
+            <h2>Built-in LED</h2>
+            <p>The <strong>Sciency Dipduino</strong> board has a built in LED which can be programmed like any other LED. The LED is connected to <strong>digital pin 13</strong> of the <strong>Sciency Dipduino</strong> and can be turned on by setting the pin to a <strong>HIGH</strong> voltage. Turning the LED off is as simple as setting <strong>digital pin 13</strong> to a <strong>LOW</strong> voltage.</p>
+            
+            <h3>Example: Blinking the Built-in LED</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="blink-mblock.png" alt="mBlock code for blinking LED">
+                <p class="circuit-caption">mBlock visual programming for LED blink</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(<span class="number">13</span>, <span class="keyword">OUTPUT</span>);  <span class="comment">// Configure pin 13 as output</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="function">digitalWrite</span>(<span class="number">13</span>, <span class="keyword">HIGH</span>);  <span class="comment">// Turn LED on</span>
+    <span class="function">delay</span>(<span class="number">1000</span>);            <span class="comment">// Wait 1 second</span>
+    <span class="function">digitalWrite</span>(<span class="number">13</span>, <span class="keyword">LOW</span>);   <span class="comment">// Turn LED off</span>
+    <span class="function">delay</span>(<span class="number">1000</span>);            <span class="comment">// Wait 1 second</span>
+}</pre>
+            </div>
+            
+            <p>The code above configures pin 13 (where the inbuilt LED is connected) as an output. It then alternately turns the LED on and off with 1-second intervals.</p>
+        </div>
+        
+        <!-- Lesson 1 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 1</div>
+                <div class="lesson-title">The Light Emitting Diode (LED)</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>LED stands for Light-Emitting Diode. It's a small electronic device that emits light when an electrical current passes through it. At the heart of an LED is a special material called a <strong>semiconductor</strong>. When electricity is applied to this semiconductor material, it causes the electrons (tiny particles in atoms) to become excited. As these electrons return to their normal state, they release energy in the form of light. This process is called <strong>electroluminescence</strong>.</p>
+                
+                <p>The LED has a positive (long) lead which is usually connected to a HIGH voltage source and a negative (short) lead which is usually connected to a ground pin (GND). If the connections are interchanged the LED will not turn on. LEDs are commonly used as indicators in various electronic devices.</p>
+                
+                <p>In this lesson we are going to create a simple traffic light using LEDs.</p>
+            </div>
+            
+            <div class="note">
+                <strong>Note:</strong> An LED must be used with a resistor to limit or 'choke' the amount of current flowing through it, otherwise, it will burn out!
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Red LED</li>
+                    <li>1 x Amber LED</li>
+                    <li>1 x Green LED</li>
+                    <li>3 x 220 Ω resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="led-traffic-light-circuit.jpg" alt="LED traffic light circuit diagram">
+                <p class="circuit-caption">Circuit diagram for LED traffic light project</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="traffic-light-mblock.png" alt="mBlock code for traffic light">
+                <p class="circuit-caption">mBlock visual programming for traffic light - Sets red LED (pin 5) HIGH, then amber (pin 8), then green (pin 10) in sequence</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define LED pins</span>
+<span class="keyword">const</span> <span class="type">int</span> redLED = <span class="number">8</span>;
+<span class="keyword">const</span> <span class="type">int</span> amberLED = <span class="number">9</span>;
+<span class="keyword">const</span> <span class="type">int</span> greenLED = <span class="number">10</span>;
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Configure LED pins as outputs</span>
+    <span class="function">pinMode</span>(redLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(amberLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(greenLED, <span class="keyword">OUTPUT</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Red light on</span>
+    <span class="function">digitalWrite</span>(redLED, <span class="keyword">HIGH</span>);
+    <span class="function">digitalWrite</span>(amberLED, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(greenLED, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="number">3000</span>);  <span class="comment">// Wait 3 seconds</span>
+    
+    <span class="comment">// Amber light on</span>
+    <span class="function">digitalWrite</span>(redLED, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(amberLED, <span class="keyword">HIGH</span>);
+    <span class="function">digitalWrite</span>(greenLED, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="number">1000</span>);  <span class="comment">// Wait 1 second</span>
+    
+    <span class="comment">// Green light on</span>
+    <span class="function">digitalWrite</span>(redLED, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(amberLED, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(greenLED, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="number">3000</span>);  <span class="comment">// Wait 3 seconds</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 2 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 2</div>
+                <div class="lesson-title">Digital Inputs</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A push button is a small, usually round component with two or more leads (metal legs) protruding from its bottom. The push buttons found in the kit have four leads, arranged in pairs. When you press the button, it temporarily connects the two pairs of leads inside the component. When you release the button, the connection is broken.</p>
+                
+                <p>Note: Whenever we use push buttons we need resistors so as to "pull" some floating voltages when the button is not pressed. There are two ways of "pulling" the floating voltage. Either use the resistor as a "pull-up" resistor by connecting it to the 5V pin or use the resistor as a "pull-down" resistor by connecting it to ground (GND) pin. In this series of videos we'll be connecting the push buttons using the "pull-down" approach.</p>
+                
+                <p>In this lesson, you will learn to use push buttons with digital inputs to turn an LED on when the button is pressed and turn the LED off when the button is released.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Amber LED</li>
+                    <li>1 x 220 Ω resistor</li>
+                    <li>1 x 5.1 KΩ resistor</li>
+                    <li>1 x Push button</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="digital-input-circuit.jpg" alt="Digital input circuit diagram">
+                <p class="circuit-caption">Circuit diagram for digital input with push button and LED</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="digital-input-mblock.png" alt="mBlock code for digital input">
+                <p class="circuit-caption">mBlock visual programming for digital input - Reads button state on pin 8 and controls LED on pin 9</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin numbers</span>
+<span class="keyword">const</span> <span class="type">int</span> buttonPin = <span class="number">8</span>;     <span class="comment">// Push button connected to pin 8</span>
+<span class="keyword">const</span> <span class="type">int</span> ledPin = <span class="number">9</span>;        <span class="comment">// LED connected to pin 9</span>
+
+<span class="type">int</span> buttonState = <span class="number">0</span>;         <span class="comment">// Variable for reading button status</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Initialize LED pin as output</span>
+    <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+    <span class="comment">// Initialize button pin as input</span>
+    <span class="function">pinMode</span>(buttonPin, <span class="keyword">INPUT</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Read the state of the button</span>
+    buttonState = <span class="function">digitalRead</span>(buttonPin);
+    
+    <span class="comment">// Check if button is pressed</span>
+    <span class="keyword">if</span> (buttonState == <span class="keyword">HIGH</span>) {
+        <span class="comment">// Turn LED on</span>
+        <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Turn LED off</span>
+        <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>);
+    }
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 3 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 3</div>
+                <div class="lesson-title">Active and Passive Buzzers</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p><strong>Active buzzers</strong> are electronic components that generate sound or audible signals when an electrical current is passed through them. They consist of a piezoelectric transducer and an internal oscillator circuit. Active buzzers operate based on the piezoelectric effect. When an electrical voltage is applied to the piezoelectric material inside the buzzer, it deforms and produces mechanical vibrations, generating sound waves.</p>
+                
+                <p>On the other hand, <strong>passive buzzers</strong> are basic sound-producing components without an internal oscillator circuit. Unlike active buzzers, <strong>passive buzzers</strong> do not have an internal oscillator like active buzzers. Instead, they rely on an external oscillating signal generated by a <strong>Sciency Dipduino</strong> pin to produce sound. Passive buzzers also produce different tones depending on the external oscillating signal supplied.</p>
+                
+                <p>In this lesson you will learn how to work with both Active and Passive buzzers by creating two separate projects.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Active buzzer</li>
+                    <li>1 x Passive buzzer</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="buzzer-circuit.jpg" alt="Buzzer circuit diagram">
+                <p class="circuit-caption">Circuit diagram for active and passive buzzers</p>
+            </div>
+            
+            <div class="note">
+                <strong>NOTE:</strong> THE RED CABLE ON THE BUZZER REPRESENTS THE POSITIVE SIDE OF THE BUZZER
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="buzzer-mblock.png" alt="mBlock code for buzzers">
+                <p class="circuit-caption">mBlock visual programming for buzzers - Plays different notes (B2, F3, E4, F5, F7) with 0.5 second delays using passive buzzer on pin 4</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Active Buzzer Example</span>
+<span class="keyword">const</span> <span class="type">int</span> activeBuzzer = <span class="number">5</span>;
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(activeBuzzer, <span class="keyword">OUTPUT</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="function">digitalWrite</span>(activeBuzzer, <span class="keyword">HIGH</span>);  <span class="comment">// Turn buzzer on</span>
+    <span class="function">delay</span>(<span class="number">1000</span>);                      <span class="comment">// Wait 1 second</span>
+    <span class="function">digitalWrite</span>(activeBuzzer, <span class="keyword">LOW</span>);   <span class="comment">// Turn buzzer off</span>
+    <span class="function">delay</span>(<span class="number">1000</span>);                      <span class="comment">// Wait 1 second</span>
+}
+
+<span class="comment">// Passive Buzzer Example (plays different tones)</span>
+<span class="keyword">const</span> <span class="type">int</span> passiveBuzzer = <span class="number">4</span>;
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// No setup needed for tone() function</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="function">tone</span>(passiveBuzzer, <span class="number">262</span>);  <span class="comment">// Play middle C (262 Hz)</span>
+    <span class="function">delay</span>(<span class="number">500</span>);
+    <span class="function">tone</span>(passiveBuzzer, <span class="number">294</span>);  <span class="comment">// Play D (294 Hz)</span>
+    <span class="function">delay</span>(<span class="number">500</span>);
+    <span class="function">tone</span>(passiveBuzzer, <span class="number">330</span>);  <span class="comment">// Play E (330 Hz)</span>
+    <span class="function">delay</span>(<span class="number">500</span>);
+    <span class="function">noTone</span>(passiveBuzzer);     <span class="comment">// Stop playing</span>
+    <span class="function">delay</span>(<span class="number">1000</span>);
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 4 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 4</div>
+                <div class="lesson-title">Servo Motor</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A servo is a type of geared motor that can only rotate up to 180 degrees. It is controlled by sending electrical pulses from your <strong>Sciency Dipduino</strong> board. These pulses tell the servo motor what position it should move to. The Servo motor has three coloured wires, of which the <strong>brown</strong> one is the ground wire and should be connected to any <strong>GND</strong> pin found on the <strong>Sciency Dipduino</strong> board, the <strong>red</strong> wire is the power wire and should be connected to the <strong>5V</strong> pin, and the <strong>orange</strong> one is the signal wire and should be connected to any digital pin of your choosing.</p>
+                
+                <p>In this lesson you will learn how to use the Servo motor by creating a project in which the direction of turn of the Servo motor is controlled by two push buttons. If we press one button, the Servo motor gradually turns clockwise and when we press the other button, the Servo motor gradually turns counter-clockwise.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Servo motor (SG90)</li>
+                    <li>2 x Push buttons</li>
+                    <li>2 x 5.1KΩ resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                    <li>A piece of arrow shaped paper (Optional)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="servo-circuit.jpg" alt="Servo motor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for servo motor control with push buttons</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="servo-mblock.png" alt="mBlock code for servo motor">
+                <p class="circuit-caption">mBlock visual programming for servo motor control - Reads buttons on pins 7 and 3 to control servo angle on pin 9</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Include the Servo library</span>
+<span class="keyword">#include</span> <span class="string">&lt;Servo.h&gt;</span>
+
+<span class="type">Servo</span> myServo;  <span class="comment">// Create servo object</span>
+
+<span class="keyword">const</span> <span class="type">int</span> buttonCW = <span class="number">7</span>;   <span class="comment">// Clockwise button</span>
+<span class="keyword">const</span> <span class="type">int</span> buttonCCW = <span class="number">3</span>;  <span class="comment">// Counter-clockwise button</span>
+<span class="keyword">const</span> <span class="type">int</span> servoPin = <span class="number">9</span>;  <span class="comment">// Servo signal pin</span>
+
+<span class="type">int</span> angle = <span class="number">90</span>;  <span class="comment">// Current servo angle</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    myServo.<span class="function">attach</span>(servoPin);  <span class="comment">// Attach servo to pin 9</span>
+    <span class="function">pinMode</span>(buttonCW, <span class="keyword">INPUT</span>);
+    <span class="function">pinMode</span>(buttonCCW, <span class="keyword">INPUT</span>);
+    myServo.<span class="function">write</span>(angle);  <span class="comment">// Set initial position</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Check clockwise button</span>
+    <span class="keyword">if</span> (<span class="function">digitalRead</span>(buttonCW) == <span class="keyword">HIGH</span> && angle < <span class="number">180</span>) {
+        angle += <span class="number">5</span>;  <span class="comment">// Increase angle</span>
+        myServo.<span class="function">write</span>(angle);
+        <span class="function">delay</span>(<span class="number">50</span>);  <span class="comment">// Small delay for smooth movement</span>
+    }
+    
+    <span class="comment">// Check counter-clockwise button</span>
+    <span class="keyword">if</span> (<span class="function">digitalRead</span>(buttonCCW) == <span class="keyword">HIGH</span> && angle > <span class="number">0</span>) {
+        angle -= <span class="number">5</span>;  <span class="comment">// Decrease angle</span>
+        myServo.<span class="function">write</span>(angle);
+        <span class="function">delay</span>(<span class="number">50</span>);  <span class="comment">// Small delay for smooth movement</span>
+    }
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 5 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 5</div>
+                <div class="lesson-title">Direct Current (DC) Motor</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A DC motor is an electric motor that operates using direct current (DC) electricity. DC motors operate on the principle of electromagnetic induction. When an electrical current flows through the motor's coils, it creates a magnetic field that interacts with the motor's permanent magnets, causing the motor shaft to rotate.</p>
+                
+                <p>The working principle of DC motors with the L293D DC motor driver and the <strong>Sciency Dipduino</strong> involves controlling the direction and speed of a DC motor using the motor driver and the <strong>Sciency Dipduino</strong>. The L293D is a motor driver IC (Integrated Circuit) that acts as an interface between the <strong>Sciency Dipduino</strong> and DC motors. It can control two motors simultaneously, allowing you to change their direction (clockwise or counterclockwise) and speed. The <strong>Sciency Dipduino</strong> sends control signals to the L293D motor driver. By changing the states of specific pins on the L293D, the Arduino can control the direction of rotation and the speed of the connected DC motors.</p>
+                
+                <p>In this lesson you will learn how to control DC motors using the L293D DC motor driver and the <strong>Sciency Dipduino</strong>.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Direct Current (DC) motor</li>
+                    <li>1 x L293D DC Motor driver</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="dc-motor-circuit.jpg" alt="DC motor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for DC motor control with L293D</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="dc-motor-mblock.png" alt="mBlock code for DC motor">
+                <p class="circuit-caption">mBlock visual programming for DC motor control - Uses L293D motor driver to run motor forward and backward</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Motor control pins</span>
+<span class="keyword">const</span> <span class="type">int</span> motor1Pin1 = <span class="number">5</span>;   <span class="comment">// L293D Input 1</span>
+<span class="keyword">const</span> <span class="type">int</span> motor1Pin2 = <span class="number">6</span>;   <span class="comment">// L293D Input 2</span>
+<span class="keyword">const</span> <span class="type">int</span> enablePin = <span class="number">9</span>;   <span class="comment">// L293D Enable pin</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Set all motor control pins as outputs</span>
+    <span class="function">pinMode</span>(motor1Pin1, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(motor1Pin2, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(enablePin, <span class="keyword">OUTPUT</span>);
+    
+    <span class="comment">// Enable the motor driver</span>
+    <span class="function">digitalWrite</span>(enablePin, <span class="keyword">HIGH</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Rotate motor clockwise</span>
+    <span class="function">digitalWrite</span>(motor1Pin1, <span class="keyword">HIGH</span>);
+    <span class="function">digitalWrite</span>(motor1Pin2, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="number">2000</span>);  <span class="comment">// Run for 2 seconds</span>
+    
+    <span class="comment">// Stop motor</span>
+    <span class="function">digitalWrite</span>(motor1Pin1, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(motor1Pin2, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="number">1000</span>);  <span class="comment">// Stop for 1 second</span>
+    
+    <span class="comment">// Rotate motor counter-clockwise</span>
+    <span class="function">digitalWrite</span>(motor1Pin1, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(motor1Pin2, <span class="keyword">HIGH</span>);
+    <span class="function">delay</span>(<span class="number">2000</span>);  <span class="comment">// Run for 2 seconds</span>
+    
+    <span class="comment">// Stop motor</span>
+    <span class="function">digitalWrite</span>(motor1Pin1, <span class="keyword">LOW</span>);
+    <span class="function">digitalWrite</span>(motor1Pin2, <span class="keyword">LOW</span>);
+    <span class="function">delay</span>(<span class="number">1000</span>);  <span class="comment">// Stop for 1 second</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 6 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 6</div>
+                <div class="lesson-title">Ultrasonic Sensor Module</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>The HC-SR04 ultrasonic sensor uses ultrasonic waves to measure distances. It consists of a transmitter (labeled <strong>T</strong>) and a receiver (labeled <strong>R</strong>). The sensor sends out an ultrasonic pulse and measures the time it takes for the pulse to bounce back after hitting an object. By calculating the time taken and knowing the speed of sound, the distance to the object can be accurately determined. Ultrasonic sensor module HC-SR04 provides 2cm - 400cm non-contact measurement function, the ranging accuracy can reach up to 3mm.</p>
+                
+                <p>In this lesson, you will learn how to use the HC-SR04 ultrasonic sensor to measure distance by creating a simple project which gives feedback in the form of a red LED and active buzzer turning on when an obstacle is close to the ultrasonic sensor and turning them off when the obstacle is further away. In this case the green LED will be on.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Ultrasonic sensor (HC-SR04)</li>
+                    <li>1 x Red LED</li>
+                    <li>1 x Green LED</li>
+                    <li>1 x Active buzzer</li>
+                    <li>2 x 220 Ω resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="ultrasonic-circuit.jpg" alt="Ultrasonic sensor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for ultrasonic sensor with LED and buzzer feedback</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="ultrasonic-mblock.png" alt="mBlock code for ultrasonic sensor">
+                <p class="circuit-caption">mBlock visual programming for ultrasonic sensor - Measures distance and controls LEDs/buzzer based on proximity (< 5cm)</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin connections</span>
+<span class="keyword">const</span> <span class="type">int</span> trigPin = <span class="number">7</span>;
+<span class="keyword">const</span> <span class="type">int</span> echoPin = <span class="number">6</span>;
+<span class="keyword">const</span> <span class="type">int</span> redLED = <span class="number">3</span>;
+<span class="keyword">const</span> <span class="type">int</span> greenLED = <span class="number">2</span>;
+<span class="keyword">const</span> <span class="type">int</span> buzzer = <span class="number">4</span>;
+
+<span class="comment">// Variables for distance calculation</span>
+<span class="type">long</span> duration;
+<span class="type">int</span> distance;
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(trigPin, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(echoPin, <span class="keyword">INPUT</span>);
+    <span class="function">pinMode</span>(redLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(greenLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(buzzer, <span class="keyword">OUTPUT</span>);
+    
+    <span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);  <span class="comment">// For debugging</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Clear the trigPin</span>
+    <span class="function">digitalWrite</span>(trigPin, <span class="keyword">LOW</span>);
+    <span class="function">delayMicroseconds</span>(<span class="number">2</span>);
+    
+    <span class="comment">// Send ultrasonic pulse</span>
+    <span class="function">digitalWrite</span>(trigPin, <span class="keyword">HIGH</span>);
+    <span class="function">delayMicroseconds</span>(<span class="number">10</span>);
+    <span class="function">digitalWrite</span>(trigPin, <span class="keyword">LOW</span>);
+    
+    <span class="comment">// Read the echoPin</span>
+    duration = <span class="function">pulseIn</span>(echoPin, <span class="keyword">HIGH</span>);
+    
+    <span class="comment">// Calculate distance (in cm)</span>
+    distance = duration * <span class="number">0.034</span> / <span class="number">2</span>;
+    
+    <span class="comment">// Print distance to Serial Monitor</span>
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">"Distance: "</span>);
+    <span class="type">Serial</span>.<span class="function">print</span>(distance);
+    <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">" cm"</span>);
+    
+    <span class="comment">// Check if obstacle is close (less than 20cm)</span>
+    <span class="keyword">if</span> (distance < <span class="number">20</span>) {
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">HIGH</span>);
+        <span class="function">digitalWrite</span>(greenLED, <span class="keyword">LOW</span>);
+        <span class="function">digitalWrite</span>(buzzer, <span class="keyword">HIGH</span>);
+    } <span class="keyword">else</span> {
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">LOW</span>);
+        <span class="function">digitalWrite</span>(greenLED, <span class="keyword">HIGH</span>);
+        <span class="function">digitalWrite</span>(buzzer, <span class="keyword">LOW</span>);
+    }
+    
+    <span class="function">delay</span>(<span class="number">100</span>);  <span class="comment">// Small delay between readings</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 7 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 7</div>
+                <div class="lesson-title">Potentiometer</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A potentiometer (also referred to as a pot) is an electronic component used in circuits to control electrical resistance. When using the <strong>Sciency Dipduino</strong> board, a potentiometer serves as an adjustable input device that allows you to vary the voltage sent to the analog pins (A0 - A5) of the board. At its core, a potentiometer consists of a resistive track and a movable wiper. As you turn the knob of the potentiometer, the wiper moves across the resistive track, changing the resistance between the wiper and the two ends of the track. This change in resistance alters the voltage passing through the potentiometer.</p>
+                
+                <p>When connecting the potentiometer to a <strong>Sciency Dipduino</strong> board, the outer pins of the potentiometer are connected to <strong>5V</strong> (power) and <strong>GND</strong> (ground) pins on the board. The middle pin (wiper) is connected to one of the analog input pins (such as A0). As you adjust the potentiometer, the voltage at the wiper pin changes, providing an analog input to the <strong>Sciency Dipduino</strong> board.</p>
+                
+                <p>In this lesson you will learn how to use the potentiometer with a simple circuit in which we control the brightness of an LED by turning the potentiometer clockwise and counter-clockwise.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Potentiometer</li>
+                    <li>1 x Blue LED</li>
+                    <li>1 x 220 Ω resistor</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="potentiometer-circuit.jpg" alt="Potentiometer circuit diagram">
+                <p class="circuit-caption">Circuit diagram for LED brightness control with potentiometer</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="potentiometer-mblock.png" alt="mBlock code for potentiometer">
+                <p class="circuit-caption">mBlock visual programming for potentiometer control - Maps analog input (0-5) to PWM output (0-255) for LED brightness control</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin connections</span>
+<span class="keyword">const</span> <span class="type">int</span> potPin = <span class="keyword">A0</span>;    <span class="comment">// Potentiometer connected to analog pin A0</span>
+<span class="keyword">const</span> <span class="type">int</span> ledPin = <span class="number">9</span>;     <span class="comment">// LED connected to PWM pin 9</span>
+
+<span class="type">int</span> potValue = <span class="number">0</span>;          <span class="comment">// Variable to store potentiometer value</span>
+<span class="type">int</span> brightness = <span class="number">0</span>;        <span class="comment">// Variable to store LED brightness</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+    <span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);    <span class="comment">// For debugging</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Read potentiometer value (0-1023)</span>
+    potValue = <span class="function">analogRead</span>(potPin);
+    
+    <span class="comment">// Map potentiometer value to LED brightness (0-255)</span>
+    brightness = <span class="function">map</span>(potValue, <span class="number">0</span>, <span class="number">1023</span>, <span class="number">0</span>, <span class="number">255</span>);
+    
+    <span class="comment">// Set LED brightness using PWM</span>
+    <span class="function">analogWrite</span>(ledPin, brightness);
+    
+    <span class="comment">// Print values to Serial Monitor</span>
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">"Potentiometer: "</span>);
+    <span class="type">Serial</span>.<span class="function">print</span>(potValue);
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">" | Brightness: "</span>);
+    <span class="type">Serial</span>.<span class="function">println</span>(brightness);
+    
+    <span class="function">delay</span>(<span class="number">10</span>);  <span class="comment">// Small delay for stability</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 8 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 8</div>
+                <div class="lesson-title">Photoresistor/Light Dependent Resistor</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A photoresistor, commonly known as an LDR (Light-Dependent Resistor), is a light-sensitive component used in electronic circuits to detect the presence or absence of light. Photoresistors are made of a semiconductor material whose electrical resistance changes with the intensity of light they are exposed to. When exposed to light, the resistance of the photoresistors decreases, and when in darkness, its resistance increases. This property allows photoresistors to act as light sensors.</p>
+                
+                <p>When connecting a photoresistor to the <strong>Sciency Dipduino</strong> board, we connect it in series with a resistor to create a voltage/potential divider circuit. One lead of the photoresistor connects to an analog input pin (such as A0), the other leg connects to both 5V (power), and a resistor (typically 5 - 10 k ohms) that connects to GND (ground). As the light intensity changes, the resistance of the photoresistor changes as described above, altering the voltage read at the analog pin.</p>
+                
+                <p>In this lesson, you are going to learn about how photoresistors are used as light sensors when connected to the <strong>Sciency Dipduino</strong> board by building a simple street light (tower light) which turns on when light intensity is low and turns off when the light intensity is high.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Photoresistor</li>
+                    <li>1 x 5.1KΩ resistor</li>
+                    <li>1 x White LED</li>
+                    <li>1 x 220 Ω resistor</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="photoresistor-circuit.jpg" alt="Photoresistor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for automatic street light with photoresistor</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="photoresistor-mblock.png" alt="mBlock code for photoresistor">
+                <p class="circuit-caption">mBlock visual programming for light sensor - Reads photoresistor value and controls LED based on light level (threshold: 100)</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin connections</span>
+<span class="keyword">const</span> <span class="type">int</span> ldrPin = <span class="keyword">A0</span>;    <span class="comment">// Photoresistor connected to analog pin A0</span>
+<span class="keyword">const</span> <span class="type">int</span> ledPin = <span class="number">13</span>;    <span class="comment">// LED connected to digital pin 13</span>
+
+<span class="type">int</span> ldrValue = <span class="number">0</span>;          <span class="comment">// Variable to store LDR value</span>
+<span class="type">int</span> threshold = <span class="number">500</span>;       <span class="comment">// Light threshold (adjust as needed)</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(ledPin, <span class="keyword">OUTPUT</span>);
+    <span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);    <span class="comment">// For debugging</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Read LDR value</span>
+    ldrValue = <span class="function">analogRead</span>(ldrPin);
+    
+    <span class="comment">// Print LDR value to Serial Monitor</span>
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">"Light level: "</span>);
+    <span class="type">Serial</span>.<span class="function">println</span>(ldrValue);
+    
+    <span class="comment">// Check if it's dark (below threshold)</span>
+    <span class="keyword">if</span> (ldrValue < threshold) {
+        <span class="comment">// Turn on street light</span>
+        <span class="function">digitalWrite</span>(ledPin, <span class="keyword">HIGH</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"LED ON - It's dark"</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Turn off street light</span>
+        <span class="function">digitalWrite</span>(ledPin, <span class="keyword">LOW</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"LED OFF - It's bright"</span>);
+    }
+    
+    <span class="function">delay</span>(<span class="number">100</span>);  <span class="comment">// Small delay for stability</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 9 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 9</div>
+                <div class="lesson-title">Thermistor</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A thermistor is a temperature-sensitive resistor that changes its resistance with variations in temperature. Thermistors are made from ceramic materials whose resistance significantly changes with temperature. There are two types of thermistors: NTC (Negative Temperature Coefficient) thermistors (like the one found on the <strong>Sciency Dipduino</strong> kit), which decrease resistance as temperature rises, and PTC (Positive Temperature Coefficient) thermistors, which increase resistance with higher temperatures.</p>
+                
+                <p>When connecting the thermistor to the <strong>Sciency Dipduino</strong> board, we connect it in series with a resistor to create a voltage/potential divider circuit. One leg of the thermistor connects to an analog input pin (such as A0), the other leg connects to both 5V (power), and a resistor (typically 5 - 10k ohms) that connects to GND (ground). As the temperature changes, the resistance of the thermistor changes, altering the voltage read at the analog pin.</p>
+                
+                <p>In this lesson you will learn how to connect the thermistor to the <strong>Sciency Dipduino</strong> and use it to measure temperature changes and give feedback using the connected LEDs. If the temperature is high, the red LED turns on but when the temperature is back to room temperature the green LED turns on instead.</p>
+            </div>
+            
+            <div class="danger">
+                <strong>Danger Alert:</strong> In this lesson, we are going to be using matches so extra care needs to be taken. For our younger students, please ask an adult to strike the match for you or alternatively use lower temperatures for this project.
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Thermistor</li>
+                    <li>1 x 5.1KΩ resistor</li>
+                    <li>1 x Red LED</li>
+                    <li>1 x Green LED</li>
+                    <li>2 x 220 Ω resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="thermistor-circuit.jpg" alt="Thermistor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for temperature sensor with LED indicators</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="thermistor-mblock.png" alt="mBlock code for thermistor">
+                <p class="circuit-caption">mBlock visual programming for temperature sensor - Monitors thermistor value and switches between red and green LEDs based on temperature (threshold: 600)</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin connections</span>
+<span class="keyword">const</span> <span class="type">int</span> thermistorPin = <span class="keyword">A0</span>;  <span class="comment">// Thermistor connected to analog pin A0</span>
+<span class="keyword">const</span> <span class="type">int</span> redLED = <span class="number">6</span>;          <span class="comment">// Red LED on pin 6</span>
+<span class="keyword">const</span> <span class="type">int</span> greenLED = <span class="number">7</span>;        <span class="comment">// Green LED on pin 7</span>
+
+<span class="type">int</span> thermistorValue = <span class="number">0</span>;        <span class="comment">// Variable to store thermistor reading</span>
+<span class="type">int</span> threshold = <span class="number">600</span>;            <span class="comment">// Temperature threshold (adjust based on testing)</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(redLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(greenLED, <span class="keyword">OUTPUT</span>);
+    <span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);         <span class="comment">// For debugging</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Read thermistor value</span>
+    thermistorValue = <span class="function">analogRead</span>(thermistorPin);
+    
+    <span class="comment">// Print thermistor value to Serial Monitor</span>
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">"Thermistor reading: "</span>);
+    <span class="type">Serial</span>.<span class="function">println</span>(thermistorValue);
+    
+    <span class="comment">// Check temperature level</span>
+    <span class="keyword">if</span> (thermistorValue > threshold) {
+        <span class="comment">// High temperature detected</span>
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">HIGH</span>);
+        <span class="function">digitalWrite</span>(greenLED, <span class="keyword">LOW</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"High temperature - Red LED ON"</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Normal temperature</span>
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">LOW</span>);
+        <span class="function">digitalWrite</span>(greenLED, <span class="keyword">HIGH</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"Normal temperature - Green LED ON"</span>);
+    }
+    
+    <span class="function">delay</span>(<span class="number">500</span>);  <span class="comment">// Delay for stability</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 10 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 10</div>
+                <div class="lesson-title">Water Level Detection Sensor Module</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A water level detection sensor module is a device designed to detect the presence or absence of water at a specific level. It's commonly used in projects involving water tanks, aquariums, or flood detection systems.</p>
+                
+                <p>The core component of this module is an amplifying circuit which is made up of a transistor and several pectinate PCB routings. When put into the water, these routings will present a resistor that can change along with the change of the water's depth. Then, the signal of water's depth is converted into the electrical signal which can be read by any analog pin on the <strong>Sciency Dipduino</strong>.</p>
+                
+                <p>In this lesson, you will learn how to connect the water level detection sensor module to the Sciency Dipduino board to create a simple water level detection system which gives feedback via an active buzzer and an LED when the level of water surpasses a certain level.</p>
+            </div>
+            
+            <div class="danger">
+                <strong>Danger Alert:</strong> In this lesson, we are going to be working with WATER so extra care needs to be taken so as to not spill water on any electronic components around. For our younger students, please ask an adult to assist you in this lesson.
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Water level detection sensor module</li>
+                    <li>1 x Red LED</li>
+                    <li>1 x Active buzzer</li>
+                    <li>1 x 220 Ω resistor</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                    <li>M-F wires (Male to Female jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="water-level-circuit.jpg" alt="Water level sensor circuit diagram">
+                <p class="circuit-caption">Circuit diagram for water level detection system</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="water-level-mblock.png" alt="mBlock code for water level sensor">
+                <p class="circuit-caption">mBlock visual programming for water level detection - Triggers LED and buzzer alarm when water level exceeds 600</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define pin connections</span>
+<span class="keyword">const</span> <span class="type">int</span> waterSensorPin = <span class="keyword">A0</span>;  <span class="comment">// Water sensor signal to analog pin A0</span>
+<span class="keyword">const</span> <span class="type">int</span> redLED = <span class="number">2</span>;           <span class="comment">// Red LED on pin 2</span>
+<span class="keyword">const</span> <span class="type">int</span> buzzer = <span class="number">3</span>;           <span class="comment">// Active buzzer on pin 3</span>
+
+<span class="type">int</span> waterLevel = <span class="number">0</span>;              <span class="comment">// Variable to store water level</span>
+<span class="type">int</span> alertThreshold = <span class="number">300</span>;       <span class="comment">// Alert threshold (adjust based on testing)</span>
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="function">pinMode</span>(redLED, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(buzzer, <span class="keyword">OUTPUT</span>);
+    <span class="type">Serial</span>.<span class="function">begin</span>(<span class="number">9600</span>);         <span class="comment">// For debugging</span>
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Read water level</span>
+    waterLevel = <span class="function">analogRead</span>(waterSensorPin);
+    
+    <span class="comment">// Print water level to Serial Monitor</span>
+    <span class="type">Serial</span>.<span class="function">print</span>(<span class="string">"Water level: "</span>);
+    <span class="type">Serial</span>.<span class="function">println</span>(waterLevel);
+    
+    <span class="comment">// Check if water level exceeds threshold</span>
+    <span class="keyword">if</span> (waterLevel > alertThreshold) {
+        <span class="comment">// Water detected - activate alert</span>
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">HIGH</span>);
+        <span class="function">digitalWrite</span>(buzzer, <span class="keyword">HIGH</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"ALERT: High water level detected!"</span>);
+    } <span class="keyword">else</span> {
+        <span class="comment">// Water level normal</span>
+        <span class="function">digitalWrite</span>(redLED, <span class="keyword">LOW</span>);
+        <span class="function">digitalWrite</span>(buzzer, <span class="keyword">LOW</span>);
+        <span class="type">Serial</span>.<span class="function">println</span>(<span class="string">"Water level normal"</span>);
+    }
+    
+    <span class="function">delay</span>(<span class="number">500</span>);  <span class="comment">// Check every half second</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 11 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 11</div>
+                <div class="lesson-title">One Digit 7-Segment Display</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A one-digit seven-segment display is a compact electronic component that can display numerical digits (0 to 9) and some alphabets using seven individual LEDs arranged in a specific pattern. Each segment of the display consists of an LED (Light Emitting Diode). By illuminating specific combinations of these LEDs, numerical digits and certain characters can be displayed. Each LED corresponds to a specific segment of the digit, arranged in the shape of the number 8, with an additional LED for the decimal point.</p>
+                
+                <p>The one-digit seven-segment display has eight pins: seven pins for each segment (A to G) and one common pin. In the <strong>Sciency Dipduino</strong> kit, the common pin being used by the display is GND as the display is a common cathode display.</p>
+                
+                <p>In this lesson you'll learn how to connect the one-digit seven-segment display to the <strong>Sciency Dipduino</strong> and program the display to show different numbers.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x One-digit seven-segment display</li>
+                    <li>8 x 220 Ω resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="7segment-1digit-circuit.jpg" alt="One digit 7-segment display circuit">
+                <p class="circuit-caption">Circuit diagram for one digit 7-segment display</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="7segment-1digit-mblock.png" alt="mBlock code for 7-segment display">
+                <p class="circuit-caption">mBlock visual programming for 7-segment display - Sets individual segments (pins 2-8) HIGH to display digit patterns</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define segment pins (a to g)</span>
+<span class="keyword">const</span> <span class="type">int</span> segmentPins[] = {<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>};
+
+<span class="comment">// Define digit patterns (0-9)</span>
+<span class="comment">// Each array represents segments a-g (1 = ON, 0 = OFF)</span>
+<span class="keyword">const</span> <span class="type">byte</span> digitPatterns[<span class="number">10</span>][<span class="number">7</span>] = {
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>},  <span class="comment">// 0</span>
+  {<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>},  <span class="comment">// 1</span>
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>},  <span class="comment">// 2</span>
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>},  <span class="comment">// 3</span>
+  {<span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>},  <span class="comment">// 4</span>
+  {<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>},  <span class="comment">// 5</span>
+  {<span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>},  <span class="comment">// 6</span>
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>},  <span class="comment">// 7</span>
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>},  <span class="comment">// 8</span>
+  {<span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">1</span>, <span class="number">1</span>}   <span class="comment">// 9</span>
+};
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Set all segment pins as outputs</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < <span class="number">7</span>; i++) {
+        <span class="function">pinMode</span>(segmentPins[i], <span class="keyword">OUTPUT</span>);
+    }
+}
+
+<span class="type">void</span> <span class="function">displayDigit</span>(<span class="type">int</span> digit) {
+    <span class="comment">// Display the digit pattern</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i < <span class="number">7</span>; i++) {
+        <span class="function">digitalWrite</span>(segmentPins[i], digitPatterns[digit][i]);
+    }
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Count from 0 to 9</span>
+    <span class="keyword">for</span> (<span class="type">int</span> digit = <span class="number">0</span>; digit <= <span class="number">9</span>; digit++) {
+        <span class="function">displayDigit</span>(digit);
+        <span class="function">delay</span>(<span class="number">1000</span>);  <span class="comment">// Display each digit for 1 second</span>
+    }
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 12 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 12</div>
+                <div class="lesson-title">Four Digit 7-Segment Display</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A four-digit seven-segment display is a multiplexed display unit comprising four seven-segment digits. It can display numbers, letters, and some special characters. Similar to the one-digit display, each digit in the four-digit seven-segment display is made up of seven LEDs arranged in the shape of the number 8, plus an additional LED for the decimal point.</p>
+                
+                <p>The four-digit seven-segment display has a total of 12 leads. Eight leads are designated for the segments (A to G, plus the decimal point, DP) and four common pins (often labeled as D1 to D4) for the digits. By selecting a specific digit (activating one of the common pins) and illuminating the corresponding segments, you can display a number or character on that digit.</p>
+                
+                <p>In this lesson you'll learn how to connect the four-digit seven-segment display to the <strong>Sciency Dipduino</strong> and program the display to show different numbers.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Four-digit seven-segment display</li>
+                    <li>4 x 220 Ω resistors</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="7segment-4digit-circuit.jpg" alt="Four digit 7-segment display circuit">
+                <p class="circuit-caption">Circuit diagram for four digit 7-segment display</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="7segment-4digit-mblock.png" alt="mBlock code for 4-digit display">
+                <p class="circuit-caption">mBlock visual programming for 4-digit 7-segment display - Displays "2023" by controlling individual digits</p>
+            </div>
+            <p style="text-align: center; margin-top: 15px;"><strong>To view the full code sample, please refer to this lesson's resources available for download</strong></p>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Define segment pins</span>
+<span class="keyword">const</span> <span class="type">int</span> segA = <span class="number">2</span>;
+<span class="keyword">const</span> <span class="type">int</span> segB = <span class="number">3</span>;
+<span class="keyword">const</span> <span class="type">int</span> segC = <span class="number">4</span>;
+<span class="keyword">const</span> <span class="type">int</span> segD = <span class="number">5</span>;
+<span class="keyword">const</span> <span class="type">int</span> segE = <span class="number">6</span>;
+<span class="keyword">const</span> <span class="type">int</span> segF = <span class="number">7</span>;
+<span class="keyword">const</span> <span class="type">int</span> segG = <span class="number">8</span>;
+
+<span class="comment">// Define digit pins</span>
+<span class="keyword">const</span> <span class="type">int</span> digit1 = <span class="number">9</span>;
+<span class="keyword">const</span> <span class="type">int</span> digit2 = <span class="number">10</span>;
+<span class="keyword">const</span> <span class="type">int</span> digit3 = <span class="number">11</span>;
+<span class="keyword">const</span> <span class="type">int</span> digit4 = <span class="number">12</span>;
+
+<span class="comment">// Digit patterns</span>
+<span class="keyword">const</span> <span class="type">byte</span> digitPatterns[<span class="number">10</span>] = {
+  <span class="number">0b00111111</span>,  <span class="comment">// 0</span>
+  <span class="number">0b00000110</span>,  <span class="comment">// 1</span>
+  <span class="number">0b01011011</span>,  <span class="comment">// 2</span>
+  <span class="number">0b01001111</span>,  <span class="comment">// 3</span>
+  <span class="number">0b01100110</span>,  <span class="comment">// 4</span>
+  <span class="number">0b01101101</span>,  <span class="comment">// 5</span>
+  <span class="number">0b01111101</span>,  <span class="comment">// 6</span>
+  <span class="number">0b00000111</span>,  <span class="comment">// 7</span>
+  <span class="number">0b01111111</span>,  <span class="comment">// 8</span>
+  <span class="number">0b01101111</span>   <span class="comment">// 9</span>
+};
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Set segment pins as outputs</span>
+    <span class="function">pinMode</span>(segA, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segB, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segC, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segD, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segE, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segF, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(segG, <span class="keyword">OUTPUT</span>);
+    
+    <span class="comment">// Set digit pins as outputs</span>
+    <span class="function">pinMode</span>(digit1, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(digit2, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(digit3, <span class="keyword">OUTPUT</span>);
+    <span class="function">pinMode</span>(digit4, <span class="keyword">OUTPUT</span>);
+}
+
+<span class="type">void</span> <span class="function">displayDigit</span>(<span class="type">byte</span> pattern) {
+    <span class="function">digitalWrite</span>(segA, pattern & <span class="number">0b00000001</span>);
+    <span class="function">digitalWrite</span>(segB, pattern & <span class="number">0b00000010</span>);
+    <span class="function">digitalWrite</span>(segC, pattern & <span class="number">0b00000100</span>);
+    <span class="function">digitalWrite</span>(segD, pattern & <span class="number">0b00001000</span>);
+    <span class="function">digitalWrite</span>(segE, pattern & <span class="number">0b00010000</span>);
+    <span class="function">digitalWrite</span>(segF, pattern & <span class="number">0b00100000</span>);
+    <span class="function">digitalWrite</span>(segG, pattern & <span class="number">0b01000000</span>);
+}
+
+<span class="type">void</span> <span class="function">displayNumber</span>(<span class="type">int</span> number) {
+    <span class="type">int</span> digit;
+    
+    <span class="comment">// Display thousands digit</span>
+    digit = number / <span class="number">1000</span>;
+    <span class="function">digitalWrite</span>(digit1, <span class="keyword">LOW</span>);
+    <span class="function">displayDigit</span>(digitPatterns[digit]);
+    <span class="function">delay</span>(<span class="number">5</span>);
+    <span class="function">digitalWrite</span>(digit1, <span class="keyword">HIGH</span>);
+    
+    <span class="comment">// Display hundreds digit</span>
+    digit = (number / <span class="number">100</span>) % <span class="number">10</span>;
+    <span class="function">digitalWrite</span>(digit2, <span class="keyword">LOW</span>);
+    <span class="function">displayDigit</span>(digitPatterns[digit]);
+    <span class="function">delay</span>(<span class="number">5</span>);
+    <span class="function">digitalWrite</span>(digit2, <span class="keyword">HIGH</span>);
+    
+    <span class="comment">// Display tens digit</span>
+    digit = (number / <span class="number">10</span>) % <span class="number">10</span>;
+    <span class="function">digitalWrite</span>(digit3, <span class="keyword">LOW</span>);
+    <span class="function">displayDigit</span>(digitPatterns[digit]);
+    <span class="function">delay</span>(<span class="number">5</span>);
+    <span class="function">digitalWrite</span>(digit3, <span class="keyword">HIGH</span>);
+    
+    <span class="comment">// Display ones digit</span>
+    digit = number % <span class="number">10</span>;
+    <span class="function">digitalWrite</span>(digit4, <span class="keyword">LOW</span>);
+    <span class="function">displayDigit</span>(digitPatterns[digit]);
+    <span class="function">delay</span>(<span class="number">5</span>);
+    <span class="function">digitalWrite</span>(digit4, <span class="keyword">HIGH</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Display 1234</span>
+    <span class="function">displayNumber</span>(<span class="number">1234</span>);
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Lesson 13 -->
+        <div class="content page-break">
+            <div class="lesson-header">
+                <div class="lesson-number">LESSON 13</div>
+                <div class="lesson-title">Liquid Crystal Display (LCD)</div>
+            </div>
+            
+            <div class="overview">
+                <h3>Overview</h3>
+                <p>A 16x2 Liquid Crystal Display (LCD) is an alphanumeric display module that can show 16 characters per line and has 2 lines. The 16x2 LCD consists of a liquid crystal material sandwiched between two polarized layers. When an electric current passes through the liquid crystal, it changes its orientation, allowing light to pass through or be blocked. This controlled passage of light forms characters and graphics on the screen.</p>
+                
+                <p>The 16x2 LCD has 16 pins. The connections include pins for power (VCC and GND), data (D4 to D7 for 4-bit mode or D0 to D7 for 8-bit mode), control (RS, RW, E), and backlight.</p>
+                
+                <p>In this lesson, you will learn how to wire up and use an alphanumeric LCD display and print the phrase "Hello World!" on the LCD screen.</p>
+            </div>
+            
+            <div class="components-box">
+                <h4>Components Required</h4>
+                <ul>
+                    <li>1 x Sciency Dipduino board</li>
+                    <li>1 x Breadboard</li>
+                    <li>1 x Liquid Crystal Display (LCD)</li>
+                    <li>1 x Potentiometer</li>
+                    <li>M-M wires (Male to Male jumper wires)</li>
+                </ul>
+            </div>
+            
+            <h3>Connection Schematic</h3>
+            <div class="circuit-diagram">
+                <img src="lcd-circuit.jpg" alt="LCD circuit diagram">
+                <p class="circuit-caption">Circuit diagram for LCD display with potentiometer for contrast control</p>
+            </div>
+            
+            <h3>Code</h3>
+            
+            <h4>1. Using mBlock</h4>
+            <div class="mblock-screenshot">
+                <img src="lcd-mblock.png" alt="mBlock code for LCD">
+                <p class="circuit-caption">mBlock visual programming for LCD display - Displays "Hello World!" on first line and "Hello Sciency!" on second line</p>
+            </div>
+            
+            <h4>2. Using Arduino IDE</h4>
+            <div class="code-block">
+                <span class="code-label">Arduino</span>
+                <pre><span class="comment">// Include the LCD library</span>
+<span class="keyword">#include</span> <span class="string">&lt;LiquidCrystal.h&gt;</span>
+
+<span class="comment">// Initialize the library with the interface pins</span>
+<span class="comment">// LiquidCrystal(rs, enable, d4, d5, d6, d7)</span>
+<span class="type">LiquidCrystal</span> <span class="function">lcd</span>(<span class="number">12</span>, <span class="number">11</span>, <span class="number">5</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>);
+
+<span class="type">void</span> <span class="function">setup</span>() {
+    <span class="comment">// Set up the LCD's number of columns and rows</span>
+    lcd.<span class="function">begin</span>(<span class="number">16</span>, <span class="number">2</span>);
+    
+    <span class="comment">// Print a message to the LCD</span>
+    lcd.<span class="function">print</span>(<span class="string">"Hello World!"</span>);
+}
+
+<span class="type">void</span> <span class="function">loop</span>() {
+    <span class="comment">// Set the cursor to column 0, line 1</span>
+    <span class="comment">// (note: line 1 is the second row, since counting begins with 0)</span>
+    lcd.<span class="function">setCursor</span>(<span class="number">0</span>, <span class="number">1</span>);
+    
+    <span class="comment">// Print the number of seconds since reset</span>
+    lcd.<span class="function">print</span>(<span class="function">millis</span>() / <span class="number">1000</span>);
+    lcd.<span class="function">print</span>(<span class="string">" seconds"</span>);
+    
+    <span class="function">delay</span>(<span class="number">100</span>);  <span class="comment">// Update display every 100ms</span>
+}</pre>
+            </div>
+        </div>
+        
+        <!-- Conclusion -->
+        <div class="content page-break">
+            <h1>Congratulations!</h1>
+            <div class="welcome-box">
+                <p>You've completed all 13 lessons in the Sciency Dipduino course! You've learned about LEDs, buttons, sensors, motors, displays, and much more. With these fundamental skills, you're now ready to create your own amazing projects.</p>
+                
+                <p>Remember, the key to mastering electronics and programming is practice and experimentation. Don't be afraid to modify the circuits and code to see what happens. Every mistake is a learning opportunity!</p>
+                
+                <p>Keep exploring, keep building, and most importantly, have fun with your Sciency Dipduino kit!</p>
+            </div>
+            
+            <div class="footer">
+                <p><strong>© 2024 Sciency. All rights reserved.</strong></p>
+                <p>Designed for makers, by makers.</p>
+                <p>Visit us at www.sciency.com for more resources and project ideas!</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Add print functionality
+        window.onload = function() {
+            // Optional: Add interactive elements or print button here
+        }
+    </script>
+</body>
+</html>
