@@ -193,6 +193,13 @@
             font-weight: 500;
         }
 
+        .cover-date {
+            position: absolute;
+            bottom: 40px;
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
         /* Content Pages */
         .content {
             padding: 40px;
@@ -725,6 +732,390 @@
             margin: 20px 0;
             border-radius: 0 8px 8px 0;
             page-break-inside: avoid;
+        }
+
+        .info-box {
+            background: #faf5ff;
+            border-left: 4px solid #8E2DE2;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+            page-break-inside: avoid;
+        }
+
+        /* Mobile Responsive Styles */
+        @media screen and (max-width: 1024px) {
+            .container {
+                margin: 0;
+                box-shadow: none;
+            }
+            
+            .cover-page {
+                height: 100vh;
+                min-height: auto;
+                max-height: none;
+                padding: 40px 20px;
+            }
+            
+            .logo {
+                width: 150px;
+                height: 150px;
+                margin-bottom: 30px;
+            }
+            
+            .cover-title {
+                font-size: 42px;
+                margin-bottom: 15px;
+            }
+            
+            .cover-subtitle {
+                font-size: 22px;
+            }
+            
+            section {
+                padding: 30px;
+            }
+            
+            h1 {
+                font-size: 32px;
+            }
+            
+            h2 {
+                font-size: 24px;
+            }
+            
+            h3 {
+                font-size: 20px;
+            }
+            
+            .circuit-diagram,
+            .mblock-screenshot {
+                max-width: 100%;
+                margin: 20px auto;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .cover-page {
+                padding: 30px 15px;
+            }
+            
+            .logo {
+                width: 120px;
+                height: 120px;
+                margin-bottom: 25px;
+            }
+            
+            .cover-title {
+                font-size: 36px;
+                letter-spacing: 1px;
+            }
+            
+            .cover-subtitle {
+                font-size: 18px;
+            }
+            
+            .cover-date {
+                font-size: 14px;
+            }
+            
+            section {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 28px;
+                margin-bottom: 20px;
+            }
+            
+            h2 {
+                font-size: 22px;
+                margin-top: 30px;
+                margin-bottom: 15px;
+            }
+            
+            h3 {
+                font-size: 18px;
+                margin-top: 20px;
+            }
+            
+            h4 {
+                font-size: 16px;
+            }
+            
+            /* Adjust code blocks for mobile */
+            pre {
+                font-size: 12px;
+                padding: 15px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            code {
+                font-size: 12px;
+            }
+            
+            /* Table responsive */
+            table {
+                font-size: 14px;
+                display: block;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* TOC adjustments */
+            .toc-item {
+                font-size: 14px;
+                margin-bottom: 12px;
+            }
+            
+            .toc-number {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+            }
+            
+            /* List adjustments */
+            ul, ol {
+                padding-left: 20px;
+            }
+            
+            li {
+                margin-bottom: 8px;
+                font-size: 15px;
+            }
+            
+            /* Page break adjustments */
+            .page-break {
+                page-break-after: auto;
+                margin: 30px 0;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .cover-page {
+                padding: 20px 10px;
+            }
+            
+            .logo {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 20px;
+                padding: 15px;
+            }
+            
+            .cover-title {
+                font-size: 28px;
+                letter-spacing: 0;
+            }
+            
+            .cover-subtitle {
+                font-size: 16px;
+                margin-bottom: 8px;
+            }
+            
+            .cover-date {
+                font-size: 12px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            section {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+                margin-bottom: 15px;
+                padding-bottom: 10px;
+            }
+            
+            h2 {
+                font-size: 20px;
+                margin-top: 25px;
+                margin-bottom: 12px;
+            }
+            
+            h3 {
+                font-size: 17px;
+                margin-top: 18px;
+                margin-bottom: 8px;
+            }
+            
+            h4 {
+                font-size: 15px;
+                margin-top: 15px;
+            }
+            
+            p {
+                font-size: 14px;
+                line-height: 1.6;
+                margin-bottom: 12px;
+            }
+            
+            /* Code blocks mobile optimization */
+            pre {
+                font-size: 11px;
+                padding: 12px;
+                margin: 15px -5px;
+                border-radius: 6px;
+            }
+            
+            code {
+                font-size: 11px;
+                padding: 2px 4px;
+            }
+            
+            /* Images full width on small screens */
+            .circuit-diagram img,
+            .mblock-screenshot img {
+                max-width: 100%;
+                margin: 15px 0;
+            }
+            
+            /* Info boxes */
+            .info-box,
+            .warning-box,
+            .note-box {
+                padding: 15px;
+                margin: 15px 0;
+                font-size: 13px;
+            }
+            
+            /* Lists */
+            ul, ol {
+                padding-left: 15px;
+            }
+            
+            li {
+                font-size: 14px;
+                margin-bottom: 6px;
+            }
+            
+            /* Table mobile view */
+            table {
+                font-size: 12px;
+            }
+            
+            th, td {
+                padding: 8px;
+            }
+            
+            /* Hide decorative elements on very small screens */
+            .logo::before {
+                display: none;
+            }
+            
+            /* Adjust background patterns */
+            .cover-page {
+                background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            }
+            
+            /* Footer mobile */
+            .footer {
+                padding: 20px 15px;
+                font-size: 12px;
+                margin-top: 40px;
+            }
+            
+            /* Packing list mobile */
+            .packing-list {
+                padding-left: 35px;
+            }
+            
+            .packing-list li {
+                font-size: 14px;
+                padding-left: 30px;
+            }
+            
+            .packing-list li::before {
+                width: 24px;
+                height: 24px;
+                font-size: 12px;
+            }
+            
+            /* Components box mobile */
+            .components-box li {
+                font-size: 14px;
+                padding-left: 20px;
+            }
+            
+            /* Step counter mobile */
+            .step::before {
+                width: 30px;
+                height: 30px;
+                font-size: 14px;
+            }
+            
+            .step {
+                padding-left: 40px;
+                font-size: 14px;
+            }
+            
+            /* Code label mobile */
+            .code-label {
+                font-size: 10px;
+                padding: 3px 10px;
+                top: 5px;
+                right: 5px;
+            }
+            
+            /* Ensure no horizontal scroll */
+            body {
+                overflow-x: hidden;
+            }
+            
+            .container {
+                overflow-x: hidden;
+            }
+        }
+
+        /* Ensure text remains readable on all devices */
+        @media screen and (max-width: 480px) {
+            body {
+                font-size: 14px;
+            }
+            
+            /* Ensure minimum tap target size for interactive elements */
+            a, button {
+                min-height: 44px;
+                min-width: 44px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+
+        /* Landscape mode adjustments */
+        @media screen and (max-width: 812px) and (orientation: landscape) {
+            .cover-page {
+                min-height: auto;
+                padding: 20px 40px;
+            }
+            
+            .logo {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 15px;
+            }
+            
+            .cover-title {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+            
+            .cover-subtitle {
+                font-size: 18px;
+            }
+            
+            section {
+                padding: 20px 30px;
+            }
+        }
+
+        /* Print media query should remain last */
+        @media print {
+            /* Existing print styles remain unchanged */
         }
     </style>
 </head>
